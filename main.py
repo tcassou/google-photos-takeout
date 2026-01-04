@@ -12,27 +12,27 @@ logging.basicConfig(level=logging.INFO)
 
 if __name__ == "__main__":
 
-    if not os.path.exists(Settings.OUTPUT_DIRECTORY):
-        logging.info(f"Output directory does not exist, creating it at {Settings.OUTPUT_DIRECTORY}")
-        os.makedirs(Settings.OUTPUT_DIRECTORY)
+    if not os.path.exists(Settings.OUTPUT_LOCATION):
+        logging.info(f"Output directory does not exist, creating it at {Settings.OUTPUT_LOCATION}")
+        os.makedirs(Settings.OUTPUT_LOCATION)
 
     directories = [
-        d for d in os.listdir(Settings.INPUT_DIRECTORY) if os.path.isdir(os.path.join(Settings.INPUT_DIRECTORY, d))
+        d for d in os.listdir(Settings.INPUT_LOCATION) if os.path.isdir(os.path.join(Settings.INPUT_LOCATION, d))
     ]
     logging.info(f"Found {len(directories)} directories in the input directory")
 
-    for i, directory in enumerate(directories):
-        input_directory_path = os.path.join(Settings.INPUT_DIRECTORY, directory)
-        logging.info(f"Processing directory {i+1}/{len(directories)}: {input_directory_path}")
+    for i, directory_name in enumerate(directories):
+        input_directory = os.path.join(Settings.INPUT_LOCATION, directory_name)
+        logging.info(f"Processing directory {i+1}/{len(directories)}: {input_directory}")
 
-        output_directory_path = os.path.join(Settings.OUTPUT_DIRECTORY, directory)
-        if not os.path.exists(output_directory_path):
-            os.makedirs(output_directory_path)
+        output_directory = os.path.join(Settings.OUTPUT_LOCATION, directory_name)
+        if not os.path.exists(output_directory):
+            os.makedirs(output_directory)
 
-        files = [f for f in os.listdir(input_directory_path) if os.path.isfile(os.path.join(input_directory_path, f))]
+        files = [f for f in os.listdir(input_directory) if os.path.isfile(os.path.join(input_directory, f))]
         photos = [f for f in files if os.path.splitext(f)[1].lower() in Settings.SUPPORTED_PHOTO_EXTENSIONS]
 
-        progress_bar = tqdm(photos, desc=f"Processing photos in {directory}", leave=True)
+        progress_bar = tqdm(photos, desc=f"Processing photos in {directory_name}", leave=True)
         for photo in progress_bar:
-            image = Image(os.path.join(input_directory_path, photo))
-            progress_bar.set_postfix_str(os.path.basename(image.path))
+            image = Image(input_directory=input_directory, output_directory=output_directory, filename=photo)
+            progress_bar.set_postfix_str(image.filename)
