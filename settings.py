@@ -6,4 +6,4 @@ class Settings:
     # Each file may have a supplemental metadata file with this extension
     METADATA_EXTENSION = ".supplemental-metadata.json"
     # Supported photo extensions
-    SUPPORTED_PHOTO_EXTENSIONS = [".jpg", ".jpeg", ".png", ".heic", ".heif"]
+    SUPPORTED_MEDIA_EXTENSIONS = [".jpg", ".jpeg", ".png", ".heic", ".heif", ".mp4", ".mov"]

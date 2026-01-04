@@ -3,7 +3,7 @@ import os
 
 from tqdm import tqdm
 
-from models.image import Image
+from models.media_file import MediaFile
 from settings import Settings
 
 
@@ -30,9 +30,13 @@ if __name__ == "__main__":
             os.makedirs(output_directory)
 
         files = [f for f in os.listdir(input_directory) if os.path.isfile(os.path.join(input_directory, f))]
-        photos = [f for f in files if os.path.splitext(f)[1].lower() in Settings.SUPPORTED_PHOTO_EXTENSIONS]
+        filenames = [f for f in files if os.path.splitext(f)[1].lower() in Settings.SUPPORTED_MEDIA_EXTENSIONS]
 
-        progress_bar = tqdm(photos, desc=f"Processing photos in {directory_name}", leave=True)
-        for photo in progress_bar:
-            image = Image(input_directory=input_directory, output_directory=output_directory, filename=photo)
-            progress_bar.set_postfix_str(image.filename)
+        progress_bar = tqdm(filenames, desc=f"Processing photos in {directory_name}", leave=True)
+        for filename in progress_bar:
+            media_file = MediaFile(
+                input_directory=input_directory,
+                output_directory=output_directory,
+                filename=filename,
+            )
+            progress_bar.set_postfix_str(media_file.filename)

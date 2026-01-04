@@ -1,11 +1,12 @@
 import json
 import os
+import shutil
 
 from models.metadata import SupplementalMetadata
 from settings import Settings
 
 
-class Image:
+class MediaFile:
     def __init__(self, input_directory: str, output_directory: str, filename: str):
         self.input_directory = input_directory
         self.output_directory = output_directory
@@ -25,3 +26,8 @@ class Image:
                 self._metadata = SupplementalMetadata.from_json(json.load(f))
 
         return self._metadata
+
+    def copy(self) -> None:
+        shutil.copy(self.input_path, self.output_path)
+
+    # def fix_creation_time(self) -> None:
