@@ -1,0 +1,49 @@
+[project]
+name = "google-photos-takeout"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+
+[tool.poetry.dependencies]
+tqdm = "^4.67.1"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = ">=4.5.1,<5.0.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.pylic]
+safe_licenses = [
+  "Apache-2.0",
+  "BSD License",
+  "BSD-2-Clause",
+  "BSD-3-Clause",
+  "ISC License (ISCL)",
+  "MIT",
+  "MIT License",
+  "PSF-2.0",
+]
+unsafe_packages = []
