@@ -1,0 +1,37 @@
+---
+description: Main rules and conventions for the google-photos-takeout project
+alwaysApply: true
+---
+
+## Project Overview
+When exporting Google photos with Takeout, photo metadata such as geolocation or dates are extracted separetely from media files, in a JSON file. This project helps modifying photo files so that this metadata is added back.
+
+## Manipulating Files
+* All files to be manipulated are stored under `~/Downloads`.
+* You should NEVER read/modify files anywhere else.
+* You should NEVER delete any files without user confimation, prefer storing them in a dedicated "trash can" folder.
+* Relevant folders to be used in the project are defined in `./settings.py`. Do not hardcode any path outside of this file.
+* Prefer read-only analysis and reporting commands where possible to avoid any accidental loss of data.
+
+## Takeout File Formats
+When exporting from Google Photos Takeout, several folders are created, for each photo album, and each year.
+Each folder contains a collections of photos/videos, and their metadata as JSON files.
+* JSON files can have different extensions, defined in `./settings.py`.
+* Be defensive about input format changes (missing fields, unexpected directory names, etc.).
+* Fail with clear error messages instead of silent skipping or crashes.
+
+## Project Structure
+* Dependencies are managed with `poetry`, and defined in `./pyproject.toml`. Therefore all python commands should be run with poetry: `poetry run python xxx`
+* High level languages / frameworks are managed by asdf, and configured in `./.tool-versions`
+* `./models` contains classes for representation of relevant objects
+* `./lib` contains the main scripts implementing the different CLI commands
+* `main.py` is the CLI entry point for this project
+* NEVER modify the project structure without explicitly asking for permission
+
+## Scripts
+* Help: `poetry run python main.py --help`
+* Scanning folders: `poetry run python main.py scan -f xxx`
+
+## Expected Behaviors
+* Log or print what the script is doing at a high level, especially for long-running operations (e.g. how many files processed, which directory is being scanned).
+* Centralize configuration in the existing `./settings.py` when possible instead of scattering constants.
