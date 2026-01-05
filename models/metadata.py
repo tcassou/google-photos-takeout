@@ -2,27 +2,37 @@
 Supplemental metadata structure:
 
 {
-  "title": "image.jpg",
+  "title": "IMG_20180318_222735.jpg",
   "description": "",
-  "imageViews": "9",
+  "imageViews": "0",
   "creationTime": {
-    "timestamp": "1639897853",
-    "formatted": "19 déc. 2021, 07:10:53 UTC"
+    "timestamp": "1521646620",
+    "formatted": "21 mars 2018, 15:37:00 UTC"
   },
   "photoTakenTime": {
-    "timestamp": "1580467879",
-    "formatted": "31 janv. 2020, 10:51:19 UTC"
+    "timestamp": "1521408455",
+    "formatted": "18 mars 2018, 21:27:35 UTC"
   },
   "geoData": {
-    "latitude": 0.0,
-    "longitude": 0.0,
-    "altitude": 0.0,
+    "latitude": 52.3711184,
+    "longitude": 4.8390853,
+    "altitude": 83.0,
+    "latitudeSpan": 0.0,
+    "longitudeSpan": 0.0
+  },
+  "geoDataExif": {
+    "latitude": 52.3711184,
+    "longitude": 4.8390853,
+    "altitude": 83.0,
     "latitudeSpan": 0.0,
     "longitudeSpan": 0.0
   },
   "url": "https://photos.google.com/photo/xxx",
   "googlePhotosOrigin": {
     "mobileUpload": {
+      "deviceFolder": {
+        "localFolderName": ""
+      },
       "deviceType": "ANDROID_PHONE"
     }
   }
@@ -39,6 +49,11 @@ class SupplementalMetadata:
     """Dataclass for supplemental JSON metadata from Google Photos takeout."""
 
     photo_taken_time: datetime
+    latitude: float
+    longitude: float
+    altitude: float
+    latitude_span: float
+    longitude_span: float
 
     @classmethod
     def from_json(cls, data: dict) -> "SupplementalMetadata":
@@ -51,4 +66,11 @@ class SupplementalMetadata:
                 f"creationTime ({creation_timestamp})"
             )
 
-        return cls(photo_taken_time=datetime.fromtimestamp(photo_taken_timestamp, tz=timezone.utc))
+        return cls(
+            photo_taken_time=datetime.fromtimestamp(photo_taken_timestamp, tz=timezone.utc),
+            latitude=data["geoData"]["latitude"],
+            longitude=data["geoData"]["longitude"],
+            altitude=data["geoData"]["altitude"],
+            latitude_span=data["geoData"]["latitudeSpan"],
+            longitude_span=data["geoData"]["longitudeSpan"],
+        )

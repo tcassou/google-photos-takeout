@@ -29,6 +29,10 @@ if __name__ == "__main__":
         if not os.path.exists(output_directory):
             os.makedirs(output_directory)
 
+        errors_directory = os.path.join(Settings.ERRORS_LOCATION, directory_name)
+        if not os.path.exists(errors_directory):
+            os.makedirs(errors_directory)
+
         files = [f for f in os.listdir(input_directory) if os.path.isfile(os.path.join(input_directory, f))]
         filenames = [f for f in files if os.path.splitext(f)[1].lower() in Settings.SUPPORTED_MEDIA_EXTENSIONS]
 
@@ -37,6 +41,14 @@ if __name__ == "__main__":
             media_file = MediaFile(
                 input_directory=input_directory,
                 output_directory=output_directory,
+                errors_directory=errors_directory,
                 filename=filename,
             )
             progress_bar.set_postfix_str(media_file.filename)
+
+            if media_file.metadata is None:
+                media_file.log_error()
+                continue
+
+            # media_file.copy()
+            # media_file.fix_creation_time()
