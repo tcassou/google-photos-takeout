@@ -50,5 +50,8 @@ if __name__ == "__main__":
                 media_file.log_error()
                 continue
 
-            # media_file.copy()
-            # media_file.fix_creation_time()
+            media_file.copy()
+            media_file.fix_creation_time()
+            break
+
+        break

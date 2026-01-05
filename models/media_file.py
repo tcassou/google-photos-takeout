@@ -23,12 +23,14 @@ class MediaFile:
     @property
     def metadata(self) -> SupplementalMetadata:
         if self._metadata is None:
-            metadata_path = self.input_path + Settings.METADATA_EXTENSION
-            if not os.path.exists(metadata_path):
-                return None
+            for metadata_extension in Settings.METADATA_EXTENSIONS:
+                metadata_path = self.input_path + metadata_extension
+                if not os.path.exists(metadata_path):
+                    continue
 
-            with open(metadata_path, "r") as f:
-                self._metadata = SupplementalMetadata.from_json(json.load(f))
+                with open(metadata_path, "r") as f:
+                    self._metadata = SupplementalMetadata.from_json(json.load(f))
+                    break
 
         return self._metadata
 

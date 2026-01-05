@@ -6,6 +6,9 @@ class Settings:
     # Errors location will contain files that could not be processed
     ERRORS_LOCATION = "/Users/thomas/Downloads/errors"
     # Each file may have a supplemental metadata file with this extension
-    METADATA_EXTENSION = ".supplemental-metadata.json"
+    METADATA_EXTENSIONS = [
+        ".supplemental-metadata.json",
+        ".suppl.json",
+    ]
     # Supported extensions
     SUPPORTED_MEDIA_EXTENSIONS = [".jpg", ".jpeg", ".png", ".heic", ".heif", ".mp4", ".mov"]
